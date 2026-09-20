@@ -1,0 +1,1577 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzMiAzMiIgd2lkdGg9IjMyIiBoZWlnaHQ9IjMyIiByb2xlPSJpbWciIGFyaWEtbGFiZWw9IlBoYXJvcyI+PHJlY3Qgd2lkdGg9IjMyIiBoZWlnaHQ9IjMyIiBmaWxsPSIjMTQyMTFDIi8+PHBhdGggZD0iTTYgMTYgTDI2IDUuNSBMMjYgOS41IFoiIGZpbGw9IiM2REFCQjkiLz48Y2lyY2xlIGN4PSIyNyIgY3k9IjcuNSIgcj0iMy4yIiBmaWxsPSIjNkRBQkI5Ii8+PHBhdGggZD0iTTYgMTYgTDI2IDE0IEwyNiAxOCBaIiBmaWxsPSIjRERFQ0VDIi8+PGNpcmNsZSBjeD0iMjciIGN5PSIxNiIgcj0iMy4yIiBmaWxsPSIjRERFQ0VDIi8+PHBhdGggZD0iTTYgMTYgTDI2IDIyLjUgTDI2IDI2LjUgWiIgZmlsbD0iIzZEQUJCOSIvPjxjaXJjbGUgY3g9IjI3IiBjeT0iMjQuNSIgcj0iMy4yIiBmaWxsPSIjNkRBQkI5Ii8+PGNpcmNsZSBjeD0iNiIgY3k9IjE2IiByPSI0LjIiIGZpbGw9IiM4QjI2MzUiLz48L3N2Zz4=">
+<title>Pharos — Independent research on network visibility</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,400;6..96,600;6..96,700&family=Archivo:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F4F5F0;
+  --bar:#E4EBE1;
+  --ink:#14211C;
+  --ink-soft:#566158;
+  --rule:#C3CCC2;
+  --rule-soft:#DDE3DA;
+  --claret:#8B2635;
+  --teal:#1C5C58;
+  --ochre:#8A6A1F;
+
+  --display:'Bodoni Moda', Georgia, serif;
+  --body:'Archivo', system-ui, sans-serif;
+  --mono:'IBM Plex Mono', ui-monospace, monospace;
+
+  --gutter: clamp(18px, 4vw, 56px);
+}
+
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;
+  background:var(--paper);
+  color:var(--ink);
+  font-family:var(--body);
+  font-size:16px;
+  line-height:1.55;
+}
+
+.wrap{max-width:1240px;margin:0 auto;padding:0 var(--gutter)}
+
+/* ---------- masthead ---------- */
+.mast-meta b{font-weight:500;color:var(--ink)}
+.mast-nav{
+  display:flex;flex-wrap:wrap;gap:4px 24px;
+  border-top:1px solid var(--rule-soft);
+  padding:9px 0;
+  font-family:var(--mono);font-size:11px;letter-spacing:.09em;text-transform:uppercase;
+}
+.mast-nav a{color:var(--ink-soft);text-decoration:none;padding:2px 0;border-bottom:1px solid transparent}
+.mast-nav a:hover,.mast-nav a:focus-visible{color:var(--claret);border-bottom-color:var(--claret)}
+
+/* ---------- hero ---------- */
+.hero{padding:clamp(48px,7vw,86px) 0 clamp(30px,4vw,44px)}
+.eyebrow{
+  font-family:var(--mono);font-size:11px;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--claret);margin:0 0 22px;
+  display:flex;align-items:center;gap:12px;
+}
+.eyebrow::after{content:"";flex:1;height:1px;background:var(--rule);max-width:190px}
+h1{
+  font-family:var(--display);
+  font-weight:400;
+  font-size:clamp(40px,7.4vw,86px);
+  line-height:.99;
+  letter-spacing:-.015em;
+  margin:0 0 26px;
+  max-width:15ch;
+}
+h1 em{font-style:italic;color:var(--claret)}
+.standfirst{
+  max-width:56ch;font-size:clamp(16px,1.5vw,18.5px);
+  color:var(--ink-soft);margin:0 0 34px;
+}
+.standfirst strong{color:var(--ink);font-weight:600}
+
+.figures{
+  display:flex;flex-wrap:wrap;gap:0;
+  border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);
+}
+.fig{
+  padding:14px 26px 13px 0;margin-right:26px;
+  border-right:1px solid var(--rule-soft);
+}
+.fig:last-child{border-right:none;margin-right:0}
+.fig-n{font-family:var(--mono);font-size:22px;font-weight:500;line-height:1;display:block}
+.fig-l{font-family:var(--mono);font-size:10px;letter-spacing:.11em;text-transform:uppercase;color:var(--ink-soft);margin-top:7px;display:block}
+
+/* ---------- section furniture ---------- */
+.section{padding:clamp(46px,6vw,78px) 0}
+.section-head{
+  display:flex;flex-wrap:wrap;gap:10px 30px;align-items:flex-end;
+  justify-content:space-between;
+  border-bottom:1.5px solid var(--ink);padding-bottom:12px;margin-bottom:0;
+}
+.section-head h2{
+  font-family:var(--display);font-weight:400;
+  font-size:clamp(27px,3.6vw,42px);line-height:1;letter-spacing:-.01em;margin:0;
+}
+.section-note{
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--ink-soft);max-width:38ch;text-align:right;
+}
+.lede{max-width:60ch;color:var(--ink-soft);margin:22px 0 30px;font-size:16.5px}
+
+/* ---------- ledger table (green-bar) ---------- */
+.ledger{border-bottom:1.5px solid var(--ink)}
+.lrow{
+  display:grid;
+  grid-template-columns:44px 1.7fr .62fr .78fr .74fr 1.1fr;
+  align-items:start;
+  border-bottom:1px solid var(--rule-soft);
+  transition:background .12s ease;
+}
+.lrow:nth-child(even){background:var(--bar)}
+.lrow:not(.lhead):hover{background:#DAE5D8}
+.lhead{
+  background:transparent !important;
+  border-bottom:1px solid var(--rule);
+  font-family:var(--mono);font-size:9.5px;letter-spacing:.13em;
+  text-transform:uppercase;color:var(--ink-soft);
+}
+.lhead > *{padding-top:11px;padding-bottom:11px}
+.lrow > *{padding:15px 16px 15px 0}
+.lrow > *:last-child{padding-right:0}
+.perf{
+  padding-left:0 !important;
+  font-family:var(--mono);font-size:10.5px;color:var(--ink-soft);
+  border-right:1px dotted var(--rule);
+  margin-right:16px;
+  text-align:center;
+}
+.levent{font-weight:600;font-size:16px;line-height:1.3}
+.lsub{display:block;font-weight:400;font-size:13px;color:var(--ink-soft);margin-top:5px;line-height:1.45;max-width:44ch}
+.lmono{font-family:var(--mono);font-size:12.5px}
+.sev{
+  font-family:var(--mono);font-size:9.5px;letter-spacing:.11em;text-transform:uppercase;
+  font-weight:600;display:inline-block;padding:3px 8px 2px;border:1px solid;
+}
+.sev-severe{color:var(--claret);border-color:var(--claret)}
+.sev-major{color:var(--ochre);border-color:var(--ochre)}
+.sev-moderate{color:var(--ink-soft);border-color:var(--rule)}
+.ldetect{font-size:13.5px;color:var(--ink-soft);line-height:1.45}
+
+.footnote{
+  font-family:var(--mono);font-size:11px;line-height:1.7;color:var(--ink-soft);
+  margin-top:16px;max-width:74ch;
+}
+.footnote b{color:var(--claret);font-weight:600}
+.footnote a{color:var(--ink-soft);text-decoration:underline;text-decoration-color:var(--rule)}
+.footnote a:hover{color:var(--claret)}
+
+/* ---------- matrix controls ---------- */
+.controls{
+  display:flex;flex-wrap:wrap;gap:18px 34px;align-items:flex-end;
+  padding:24px 0 20px;border-bottom:1px solid var(--rule);
+}
+.ctl-label{
+  font-family:var(--mono);font-size:9.5px;letter-spacing:.13em;text-transform:uppercase;
+  color:var(--ink-soft);display:block;margin-bottom:9px;
+}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{
+  font-family:var(--mono);font-size:11px;letter-spacing:.05em;
+  background:none;border:1px solid var(--rule);color:var(--ink-soft);
+  padding:6px 12px;cursor:pointer;transition:all .12s ease;
+}
+.chip:hover{border-color:var(--ink-soft);color:var(--ink)}
+.chip[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+.searchbox{
+  font-family:var(--mono);font-size:13px;color:var(--ink);
+  background:transparent;border:none;border-bottom:1.5px solid var(--ink);
+  padding:6px 2px;min-width:210px;
+}
+.searchbox::placeholder{color:var(--ink-soft)}
+.searchbox:focus{outline:none;border-bottom-color:var(--claret)}
+.count{
+  font-family:var(--mono);font-size:11px;letter-spacing:.09em;text-transform:uppercase;
+  color:var(--ink-soft);margin-left:auto;padding-bottom:6px;
+}
+
+/* ---------- matrix table ---------- */
+.matrix{border-bottom:1.5px solid var(--ink)}
+.mrow{
+  display:grid;
+  grid-template-columns:44px 1.05fr 1.5fr .58fr 1.35fr .6fr;
+  align-items:start;
+  border-bottom:1px solid var(--rule-soft);
+  transition:background .12s ease;
+}
+.mrow.stripe{background:var(--bar)}
+.mrow:not(.mhead):hover{background:#DAE5D8}
+.mhead{
+  background:transparent !important;
+  border-bottom:1px solid var(--rule);
+  font-family:var(--mono);font-size:9.5px;letter-spacing:.13em;
+  text-transform:uppercase;color:var(--ink-soft);
+}
+.mhead > *{padding-top:11px;padding-bottom:11px}
+.mrow > *{padding:13px 16px 13px 0}
+.mrow > *:last-child{padding-right:0}
+.msrc{font-weight:600;font-size:14.5px;line-height:1.3}
+.mjob{font-size:14px;line-height:1.4}
+.mceil{font-size:13px;color:var(--ink-soft);line-height:1.4}
+.tag{
+  font-family:var(--mono);font-size:9.5px;letter-spacing:.09em;text-transform:uppercase;
+  display:inline-block;padding:3px 7px 2px;border:1px solid;white-space:nowrap;
+}
+.t-free{color:var(--teal);border-color:var(--teal)}
+.t-freemium{color:var(--ochre);border-color:var(--ochre)}
+.t-commercial{color:var(--claret);border-color:var(--claret)}
+.mfit{font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;color:var(--ink-soft);text-transform:uppercase}
+.empty{padding:40px 0;font-family:var(--mono);font-size:13px;color:var(--ink-soft)}
+.empty b{color:var(--ink);display:block;margin-bottom:6px;font-weight:500}
+
+/* ---------- matrix group headings ---------- */
+.ghead{
+  margin-top:44px;
+  padding:16px 0 14px;
+  border-top:4px solid var(--ink);
+  border-bottom:1.5px solid var(--ink);
+  display:grid;
+  grid-template-columns:44px 1fr auto;
+  align-items:baseline;
+  column-gap:0;
+  scroll-margin-top:20px;
+}
+.ghead:first-child{margin-top:6px}
+.gnum{
+  font-family:var(--mono);font-size:11px;font-weight:600;
+  letter-spacing:.06em;line-height:1.6;
+}
+.gq{
+  font-family:var(--display);font-weight:400;
+  font-size:clamp(19px,2.3vw,27px);line-height:1.04;letter-spacing:-.012em;margin:0;
+}
+.gcount{
+  font-family:var(--mono);font-size:10px;letter-spacing:.13em;
+  text-transform:uppercase;color:var(--claret);white-space:nowrap;
+}
+.gdesc{
+  grid-column:2 / -1;font-size:13.5px;line-height:1.5;
+  color:var(--ink-soft);max-width:64ch;margin:8px 0 0;
+}
+.gcount{justify-self:end;padding-left:20px}
+
+.contents{
+  border-top:1px solid var(--rule);border-bottom:1.5px solid var(--ink);
+  padding:20px 0;margin-bottom:0;
+}
+.contents-label{
+  font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--ink-soft);display:block;margin-bottom:14px;
+}
+.contents ol{
+  list-style:none;margin:0;padding:0;
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(228px,1fr));gap:3px 30px;
+  counter-reset:toc;
+}
+.contents li{counter-increment:toc}
+.contents a{
+  display:flex;gap:11px;align-items:baseline;
+  text-decoration:none;color:var(--ink);padding:6px 0;
+  border-bottom:1px solid transparent;font-size:14px;line-height:1.35;
+}
+.contents a::before{
+  content:counter(toc,decimal-leading-zero);
+  font-family:var(--mono);font-size:10.5px;color:var(--claret);flex:none;
+}
+.contents a:hover,.contents a:focus-visible{border-bottom-color:var(--ink)}
+
+
+/* ---------- opinion ---------- */
+.opinion{background:var(--bar);border-top:1.5px solid var(--ink);border-bottom:1.5px solid var(--ink)}
+.ogrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(272px,1fr));gap:0}
+.ocol{padding:0 26px 8px;border-left:1px solid var(--rule)}
+.ocol:first-child{padding-left:0;border-left:none}
+.ocol:last-child{padding-right:0}
+.orule{height:5px;margin-bottom:18px}
+.okicker{
+  font-family:var(--mono);font-size:9.5px;letter-spacing:.15em;text-transform:uppercase;
+  display:block;margin-bottom:11px;
+}
+.ocol h3{
+  font-family:var(--display);font-weight:400;font-style:italic;
+  font-size:clamp(21px,2.3vw,26px);line-height:1.1;letter-spacing:-.01em;margin:0 0 14px;
+}
+.ocol p{font-size:14.5px;line-height:1.6;color:var(--ink-soft);margin:0 0 12px}
+.ocol p strong{color:var(--ink);font-weight:600}
+.olede{font-size:16px !important;color:var(--ink) !important}
+.obyline{
+  font-family:var(--mono);font-size:10px;letter-spacing:.11em;text-transform:uppercase;
+  color:var(--ink-soft);border-top:1px solid var(--rule);padding-top:11px;margin-top:16px;display:block;
+}
+.archive{margin-top:40px;border-top:1.5px solid var(--ink)}
+.archive summary{cursor:pointer;list-style:none;padding:18px 0;display:flex;flex-wrap:wrap;gap:6px 22px;align-items:baseline}
+.archive summary::-webkit-details-marker{display:none}
+.archive summary .okicker{margin:0}
+.archive-t{font-family:var(--display);font-style:italic;font-size:18px;color:var(--ink-soft)}
+.archive summary::after{content:"Read";font-family:var(--mono);font-size:10px;letter-spacing:.11em;text-transform:uppercase;color:var(--claret);margin-left:auto;border-bottom:1px solid var(--claret)}
+.archive[open] summary::after{content:"Close"}
+.archive[open] summary{border-bottom:1px solid var(--rule);margin-bottom:26px}
+@media (max-width:900px){
+  .ocol{padding:0 0 8px;border-left:none;border-top:1px solid var(--rule);padding-top:26px}
+  .ocol:first-child{border-top:none;padding-top:0}
+}
+
+/* ---------- commercial layer ---------- */
+.adlabel{
+  font-family:var(--mono);font-size:9px;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--ink-soft);display:flex;align-items:center;gap:10px;margin-bottom:9px;
+}
+.adlabel::after{content:"";flex:1;height:1px;background:var(--rule)}
+.adslot{
+  border:1px dashed var(--rule);background:rgba(255,255,255,.45);
+  padding:26px 24px;text-align:center;
+}
+.adslot p{margin:0;font-size:15px;color:var(--ink-soft)}
+.adslot .adname{
+  font-family:var(--display);font-size:22px;color:var(--ink);display:block;margin-bottom:6px;
+}
+.leaderboard{padding:8px 0 clamp(30px,4vw,44px)}
+.presented{
+  font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--ink-soft);border:1px solid var(--rule);padding:6px 12px;white-space:nowrap;
+}
+.presented b{color:var(--ink);font-weight:600}
+
+.partner{border-top:1.5px solid var(--ink);border-bottom:1.5px solid var(--ink)}
+.pgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1px;background:var(--rule)}
+.pcard{background:var(--paper);padding:24px 22px}
+.pcard h4{font-family:var(--display);font-weight:400;font-size:21px;line-height:1.15;margin:0 0 10px}
+.pcard p{margin:0;font-size:14px;color:var(--ink-soft);line-height:1.5}
+.pby{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ochre);display:block;margin-top:14px}
+
+.verified{
+  font-family:var(--mono);font-size:8.5px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--paper);background:var(--teal);padding:2px 6px 1px;margin-left:7px;
+  display:inline-block;vertical-align:middle;white-space:nowrap;
+}
+
+.arow{
+  display:grid;grid-template-columns:44px 1fr 1fr 1.25fr .7fr;
+  align-items:start;border-bottom:1px solid var(--rule-soft);
+}
+.arow.stripe{background:var(--bar)}
+.arow:not(.ahead):hover{background:#DAE5D8}
+.ahead{
+  background:transparent !important;border-bottom:1px solid var(--rule);
+  font-family:var(--mono);font-size:9.5px;letter-spacing:.13em;
+  text-transform:uppercase;color:var(--ink-soft);
+}
+.ahead > *{padding-top:11px;padding-bottom:11px}
+.arow > *{padding:14px 16px 14px 0}
+.arow > *:last-child{padding-right:0}
+.aunit{font-weight:600;font-size:14.5px;line-height:1.3}
+.awhere{font-size:13.5px;line-height:1.4}
+.anot{font-size:13px;line-height:1.45;color:var(--claret)}
+.arate{font-family:var(--mono);font-size:12px;color:var(--ink-soft)}
+.ratecard{border-bottom:1.5px solid var(--ink)}
+.disc-grid{grid-template-columns:repeat(auto-fit,minmax(240px,1fr)) !important}
+
+@media (max-width:900px){
+  .arow{grid-template-columns:34px 1fr;row-gap:0}
+  .arow > *{padding:4px 0}
+  .arow .perf{grid-row:span 4;padding-top:13px !important;margin-right:12px}
+  .arow .aunit{padding-top:13px}
+  .arow .arate{padding-bottom:14px}
+  .ahead{display:none}
+}
+
+/* ---------- live status bar (modern chrome) ---------- */
+.statusbar{background:var(--ink);color:var(--paper)}
+.status-inner{
+  display:flex;flex-wrap:wrap;align-items:center;gap:6px 26px;
+  padding:9px 0;
+  font-family:var(--mono);font-size:10px;letter-spacing:.13em;text-transform:uppercase;
+}
+.status-inner span{color:#9BAA9F;white-space:nowrap}
+.status-inner b{color:var(--paper);font-weight:500}
+.live{display:flex;align-items:center;gap:8px;color:var(--paper) !important}
+.dot{
+  width:7px;height:7px;background:#5FD08A;flex:none;border-radius:50%;
+  animation:pulse 2.4s ease-in-out infinite;
+}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.35;transform:scale(.72)}}
+
+/* ---------- sticky compact header ---------- */
+.sticky{
+  position:fixed;top:0;left:0;right:0;z-index:50;
+  background:var(--paper);border-bottom:1.5px solid var(--ink);
+  transform:translateY(-102%);transition:transform .28s cubic-bezier(.4,0,.2,1);
+  will-change:transform;
+}
+.sticky.show{transform:none}
+.sticky .spectrum{height:3px}
+.sticky-inner{
+  display:flex;align-items:center;gap:10px 24px;padding:10px 0;
+}
+.sticky svg{width:24px;height:24px;flex:none;display:block}
+.sticky-name{font-family:var(--display);font-weight:700;font-size:19px;letter-spacing:.02em}
+.sticky-nav{
+  display:flex;gap:20px;margin-left:auto;flex-wrap:wrap;
+  font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;
+}
+.sticky-nav a{color:var(--ink-soft);text-decoration:none;border-bottom:1px solid transparent;padding-bottom:2px}
+.sticky-nav a:hover,.sticky-nav a:focus-visible{color:var(--claret);border-bottom-color:var(--claret)}
+@media (max-width:720px){.sticky-nav{display:none}}
+@media (prefers-reduced-motion:reduce){
+  .sticky{transition:none}
+  .dot{animation:none}
+}
+
+/* ---------- banner ---------- */
+.spectrum{display:flex;height:5px}
+.spectrum i{flex:1}
+.masthead{border-bottom:1.5px solid var(--ink);padding-top:0}
+.masthead-top{
+  display:flex;flex-wrap:wrap;gap:16px 26px;align-items:center;
+  justify-content:space-between;padding:22px 0 18px;
+}
+.brand{display:flex;align-items:center;gap:14px;min-width:0}
+.brand svg{width:38px;height:38px;flex:none;display:block}
+.wordmark{
+  font-family:var(--display);font-weight:700;
+  font-size:clamp(24px,3.4vw,36px);letter-spacing:.02em;line-height:1;margin:0;
+}
+.tagline{
+  font-family:var(--mono);font-size:9.5px;letter-spacing:.15em;text-transform:uppercase;
+  color:var(--ink-soft);display:block;margin-top:7px;
+}
+.mast-meta{
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--ink-soft);display:flex;flex-wrap:wrap;gap:8px 22px;text-align:right;
+}
+@media (max-width:640px){
+  .mast-meta{text-align:left}
+  .brand svg{width:32px;height:32px}
+}
+
+/* ---------- charts ---------- */
+.findings{background:var(--bar);border-top:1.5px solid var(--ink);border-bottom:1.5px solid var(--ink)}
+.chart-block{padding:clamp(30px,4vw,44px) 0;border-bottom:1px solid var(--rule)}
+.chart-block:last-child{border-bottom:none}
+.chart-head{display:flex;flex-wrap:wrap;gap:6px 22px;align-items:baseline;margin-bottom:6px}
+.chart-head h3{
+  font-family:var(--display);font-weight:400;font-size:clamp(20px,2.4vw,28px);
+  line-height:1.05;letter-spacing:-.012em;margin:0;
+}
+.chart-num{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--claret)}
+.chart-desc{font-size:14.5px;color:var(--ink-soft);max-width:64ch;margin:0 0 22px;line-height:1.5}
+.chart-desc b{color:var(--ink);font-weight:600}
+.chart svg{width:100%;height:auto;display:block;overflow:visible}
+.c-lab{font-family:var(--mono);font-size:13px;fill:var(--ink)}
+.c-sub{font-family:var(--mono);font-size:11px;fill:var(--ink-soft)}
+.c-val{font-family:var(--mono);font-size:12px;font-weight:600;fill:var(--paper)}
+.c-valo{font-family:var(--mono);font-size:12px;font-weight:600;fill:var(--ink)}
+.c-axis{stroke:var(--rule);stroke-width:1}
+.legend{display:flex;flex-wrap:wrap;gap:8px 22px;margin-top:20px}
+.legend span{
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--ink-soft);display:flex;align-items:center;gap:8px;
+}
+.legend i{width:11px;height:11px;display:inline-block;flex:none}
+.takeaway{
+  border-left:3px solid var(--claret);padding:2px 0 2px 16px;margin-top:22px;
+  font-size:15px;max-width:60ch;line-height:1.5;
+}
+.takeaway b{font-weight:600}
+
+/* ---------- minimum viable stack table ---------- */
+.stack{border-bottom:1.5px solid var(--ink)}
+.srow{
+  display:grid;grid-template-columns:44px 1.1fr 1fr 1fr 1.25fr;
+  align-items:start;border-bottom:1px solid var(--rule-soft);
+}
+.srow.stripe{background:var(--bar)}
+.srow:not(.shead):hover{background:#DAE5D8}
+.shead{
+  background:transparent !important;border-bottom:1px solid var(--rule);
+  font-family:var(--mono);font-size:9.5px;letter-spacing:.13em;
+  text-transform:uppercase;color:var(--ink-soft);
+}
+.shead > *{padding-top:11px;padding-bottom:11px}
+.srow > *{padding:14px 16px 14px 0}
+.srow > *:last-child{padding-right:0}
+.sq{font-weight:600;font-size:14.5px;line-height:1.3}
+.sfree{font-size:13.5px;line-height:1.4;color:var(--teal);font-weight:500}
+.spaid{font-size:13.5px;line-height:1.4;color:var(--claret);font-weight:500}
+.scost{font-size:13px;line-height:1.45;color:var(--ink-soft)}
+.tick{width:3px;align-self:stretch;padding:0 !important;margin-right:13px}
+
+/* group colour ticks */
+.gbar{width:34px;height:4px;display:inline-block;flex:none;margin-right:-6px}
+.toc-dot{width:9px;height:9px;flex:none;display:inline-block;margin-top:6px}
+
+/* ---------- survey ---------- */
+.survey{border-top:1.5px solid var(--ink);border-bottom:1.5px solid var(--ink);background:var(--bar)}
+.survey-inner{
+  display:grid;grid-template-columns:1.15fr .85fr;gap:clamp(28px,5vw,70px);
+  padding:clamp(38px,5vw,58px) 0;align-items:start;
+}
+.survey h2{
+  font-family:var(--display);font-weight:400;font-size:clamp(26px,3.4vw,38px);
+  line-height:1.06;margin:0 0 18px;letter-spacing:-.01em;
+}
+.survey p{color:var(--ink-soft);margin:0 0 16px;max-width:48ch}
+.survey ul{list-style:none;padding:0;margin:22px 0 0}
+.survey li{
+  font-family:var(--mono);font-size:12px;letter-spacing:.04em;
+  padding:9px 0 9px 22px;border-top:1px solid var(--rule);position:relative;
+}
+.survey li::before{content:"—";position:absolute;left:0;color:var(--claret)}
+.btn{
+  display:inline-block;font-family:var(--mono);font-size:11.5px;letter-spacing:.11em;
+  text-transform:uppercase;background:var(--ink);color:var(--paper);
+  border:1.5px solid var(--ink);padding:13px 24px;text-decoration:none;cursor:pointer;
+  transition:all .14s ease;margin-top:10px;
+}
+.btn:hover,.btn:focus-visible{background:var(--claret);border-color:var(--claret)}
+
+/* ---------- disclosure ---------- */
+.disclosure{padding:clamp(44px,6vw,72px) 0}
+.disc-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(26px,5vw,64px)}
+.disc-grid h3{
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--claret);margin:0 0 14px;font-weight:600;
+}
+.disc-grid p{margin:0 0 14px;font-size:15px;color:var(--ink-soft);max-width:50ch}
+.disc-grid strong{color:var(--ink);font-weight:600}
+
+footer{border-top:1.5px solid var(--ink);padding:22px 0 60px}
+.origin{
+  flex-basis:100%;text-transform:none;letter-spacing:0;
+  font-family:var(--body);font-size:13px;color:var(--ink-soft);
+  max-width:62ch;margin-top:6px;
+}
+.foot{
+  display:flex;flex-wrap:wrap;gap:10px 30px;justify-content:space-between;
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-soft);
+}
+
+/* ---------- reveal ---------- */
+.reveal{opacity:0;transform:translateY(14px);transition:opacity .6s ease,transform .6s ease}
+.reveal.in{opacity:1;transform:none}
+
+:focus-visible{outline:2px solid var(--claret);outline-offset:3px}
+
+@media (max-width:900px){
+  .lrow{grid-template-columns:34px 1fr;row-gap:0}
+  .lrow > *{padding:5px 0}
+  .lrow .perf{grid-row:span 5;padding-top:15px !important;margin-right:12px}
+  .lrow .levent{padding-top:15px}
+  .lrow .ldetect{padding-bottom:16px}
+  .lhead{display:none}
+  .mrow{grid-template-columns:34px 1fr;row-gap:0}
+  .mrow > *{padding:4px 0}
+  .mrow .perf{grid-row:span 5;padding-top:13px !important;margin-right:12px}
+  .mrow .msrc{padding-top:13px}
+  .mrow .mfit{padding-bottom:14px}
+  .mhead{display:none}
+  .srow{grid-template-columns:34px 1fr;row-gap:0}
+  .srow > *{padding:4px 0}
+  .srow .perf{grid-row:span 4;padding-top:13px !important;margin-right:12px}
+  .srow .sq{padding-top:13px}
+  .srow .scost{padding-bottom:14px}
+  .shead{display:none}
+  .ghead{grid-template-columns:1fr auto;column-gap:12px}
+  .ghead .gnum{display:none}
+  .ghead .gdesc{grid-column:1 / -1}
+  .c-lab{font-size:17px}
+  .c-sub{font-size:15px}
+  .c-val,.c-valo{font-size:16px}
+  .survey-inner,.disc-grid{grid-template-columns:1fr}
+  .section-note{text-align:left}
+  .count{margin-left:0}
+}
+@media (prefers-reduced-motion:reduce){
+  .reveal{opacity:1;transform:none;transition:none}
+  *{transition:none !important}
+}
+
+/* ---------- intro / purpose / wayfinding ---------- */
+.intro{padding-top:clamp(40px,6vw,72px)}
+
+.intro h1 em{font-style:italic;color:var(--claret)}
+.intro h1{max-width:16ch;margin-bottom:22px}
+.intro .standfirst{max-width:62ch;margin-bottom:0}
+.intro .standfirst + .standfirst{margin-top:16px}
+.contents{border-top:1px solid var(--rule);border-bottom:1.5px solid var(--ink);margin-top:36px}
+.contents-head{
+  display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.11em;text-transform:uppercase;
+  color:var(--ink-soft);padding:13px 0 11px;border-bottom:1px solid var(--rule-soft);
+}
+.crow{
+  display:grid;grid-template-columns:minmax(150px,.4fr) 1fr;gap:3px 26px;
+  padding:11px 0;border-bottom:1px solid var(--rule-soft);transition:background .12s ease;
+}
+.crow:last-child{border-bottom:none}
+.crow:hover{background:var(--bar)}
+.crow a{color:var(--ink);text-decoration:none;font-weight:600;font-size:15px;border-bottom:1px solid transparent}
+.crow a:hover,.crow a:focus-visible{color:var(--claret);border-bottom-color:var(--claret)}
+.crow p{margin:0;color:var(--ink-soft);font-size:14.5px;line-height:1.5;max-width:66ch}
+@media (max-width:640px){.crow{grid-template-columns:1fr;gap:2px}}
+.starthere{display:grid;grid-template-columns:repeat(3,1fr);border-bottom:1.5px solid var(--ink)}
+.sh{padding:16px 24px 17px 0;margin-right:24px;border-right:1px solid var(--rule-soft)}
+.sh:last-child{border-right:none;margin-right:0}
+.sh-l{font-family:var(--mono);font-size:10px;letter-spacing:.11em;text-transform:uppercase;color:var(--claret);display:block;margin-bottom:8px}
+.sh b{display:block;font-size:15px;font-weight:600;margin-bottom:3px}
+.sh b a{color:inherit;text-decoration:none;border-bottom:1px solid var(--rule)}
+.sh b a:hover,.sh b a:focus-visible{color:var(--claret);border-bottom-color:var(--claret)}
+.sh span{color:var(--ink-soft);font-size:14px}
+@media (max-width:760px){
+  .starthere{grid-template-columns:1fr}
+  .sh{border-right:none;margin-right:0;padding-right:0;border-bottom:1px solid var(--rule-soft)}
+  .sh:last-child{border-bottom:none}
+}
+.hero h2.hook{
+  font-family:var(--display);font-weight:400;
+  font-size:clamp(36px,6.2vw,72px);line-height:1;letter-spacing:-.015em;
+  margin:0 0 26px;max-width:15ch;
+}
+.hero h2.hook em{font-style:italic;color:var(--claret)}
+.survey-note{
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--ink-soft);margin:-6px 0 16px !important;
+}
+.disc-lede{max-width:60ch;color:var(--ink-soft);font-size:16.5px;margin:0 0 30px}
+</style>
+</head>
+<body>
+<div class="sticky" id="sticky" aria-hidden="true">
+  <div class="spectrum">
+    <i style="background:#8B2635"></i><i style="background:#1C5C58"></i>
+    <i style="background:#9A6B12"></i><i style="background:#33417E"></i>
+    <i style="background:#4A6410"></i><i style="background:#6B3A6E"></i>
+    <i style="background:#2E5A78"></i>
+  </div>
+  <div class="wrap sticky-inner">
+    <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <rect width="32" height="32" fill="#14211C"/><path d="M6 16 L26 5.5 L26 9.5 Z" fill="#6DABB9"/><circle cx="27" cy="7.5" r="3.2" fill="#6DABB9"/><path d="M6 16 L26 14 L26 18 Z" fill="#DDECEC"/><circle cx="27" cy="16" r="3.2" fill="#DDECEC"/><path d="M6 16 L26 22.5 L26 26.5 Z" fill="#6DABB9"/><circle cx="27" cy="24.5" r="3.2" fill="#6DABB9"/><circle cx="6" cy="16" r="4.2" fill="#8B2635"/>
+    </svg>
+    <span class="sticky-name">Pharos</span>
+    <nav class="sticky-nav">
+      <a href="#ledger">Ledger</a><a href="#findings">Findings</a>
+      <a href="#stack">Stack</a><a href="#matrix">Matrix</a><a href="#opinion">Opinion</a><a href="#survey">Survey</a>
+    </nav>
+  </div>
+</div>
+
+<header class="masthead">
+  <div class="spectrum" aria-hidden="true">
+      <i style="background:#8B2635"></i><i style="background:#1C5C58"></i>
+      <i style="background:#9A6B12"></i><i style="background:#33417E"></i>
+      <i style="background:#4A6410"></i><i style="background:#6B3A6E"></i>
+      <i style="background:#2E5A78"></i>
+  </div>
+    <div class="statusbar">
+      <div class="wrap status-inner">
+        <span class="live"><i class="dot" aria-hidden="true"></i>Ledger open</span>
+        <span>Updated <b id="stamp">—</b></span>
+        <span>Sources tracked <b id="srcCount">66</b></span>
+        <span>Entries logged <b>9</b></span>
+        <span>Survey <b>Open</b></span>
+      </div>
+    </div>
+    <div class="wrap">
+    <div class="masthead-top">
+      <div class="brand">
+        <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Pharos mark">
+          <rect width="32" height="32" fill="#14211C"/><path d="M6 16 L26 5.5 L26 9.5 Z" fill="#6DABB9"/><circle cx="27" cy="7.5" r="3.2" fill="#6DABB9"/><path d="M6 16 L26 14 L26 18 Z" fill="#DDECEC"/><circle cx="27" cy="16" r="3.2" fill="#DDECEC"/><path d="M6 16 L26 22.5 L26 26.5 Z" fill="#6DABB9"/><circle cx="27" cy="24.5" r="3.2" fill="#6DABB9"/><circle cx="6" cy="16" r="4.2" fill="#8B2635"/>
+        </svg>
+        <div>
+          <h2 class="wordmark">Pharos</h2>
+          <span class="tagline">Independent research on network visibility</span>
+        </div>
+      </div>
+      <div class="mast-meta">
+        <span>Issue <b>№ 02</b></span>
+        <span>Ratings <b>never sold</b></span>
+      </div>
+    </div>
+    <nav class="mast-nav">
+      <a href="#ledger">The Ledger</a>
+      <a href="#findings">Findings</a>
+      <a href="#stack">Minimum Stack</a>
+      <a href="#matrix">Coverage Matrix</a>
+      <a href="#opinion">Opinion</a>
+      <a href="#survey">Annual Survey</a>
+      <a href="#advertise">Advertise</a>
+      <a href="#disclosure">How we're funded</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+<section class="intro wrap">
+  <p class="eyebrow">What Pharos is</p>
+  <h1>Know the outage <em>before</em> your customers do.</h1>
+  <p class="standfirst">When something large goes down, someone outside the company saw it first. The evidence is public and most of it is free. Almost nobody knows where to look.</p>
+  <p class="standfirst"><strong>Pharos is the map.</strong> Sixty-six sources, assessed against the same seven questions, with what each one costs and the exact point where free stops being enough.</p>
+
+  <div class="contents">
+    <div class="contents-head"><span>What&rsquo;s in this issue</span><span>Free to read &middot; No login &middot; Nothing here was placed by a vendor</span></div>
+
+    <div class="crow"><div><a href="#ledger">The Ledger</a></div>
+      <p>Nine major outages now, five new this issue, and who could see each one before the company said anything. One standing entry per event, not a news story that expires.</p></div>
+
+    <div class="crow"><div><a href="#findings">Findings</a></div>
+      <p>Three charts built from the source list below. What the whole landscape looks like once you sort it by what it costs rather than what it&rsquo;s called.</p></div>
+
+    <div class="crow"><div><a href="#stack">The Minimum Viable Stack</a></div>
+      <p>Seven questions, seven free answers. If you read one section and then close the tab, make it this one &mdash; you can assemble the whole thing in an afternoon.</p></div>
+
+    <div class="crow"><div><a href="#matrix">The Coverage Matrix</a></div>
+      <p>All 66 sources, filterable by price and by who you are. Four added and one re-banded this issue. Come here when you already know what you need to find out.</p></div>
+
+    <div class="crow"><div><a href="#opinion">Opinion</a></div>
+      <p>Three new columns on things the matrix cannot measure. No methodology, no pretence of any. The № 01 columns are kept underneath.</p></div>
+
+    <div class="crow"><div><a href="#partner">Partner content</a></div>
+      <p>Written and paid for by sponsors, labelled at the top and bottom. Skip it without missing anything &mdash; it never touches the Ledger or the Findings.</p></div>
+
+    <div class="crow"><div><a href="#survey">The Annual Survey</a></div>
+      <p>What people running this tooling actually use, drop, and regret not buying. Published free and in full. The first survey is open now; results run in № 03.</p></div>
+
+    <div class="crow"><div><a href="#advertise">Advertise with Pharos</a></div>
+      <p>For vendors. What the six units cost, and the column listing what they explicitly do not buy.</p></div>
+
+    <div class="crow"><div><a href="#disclosure">How we&rsquo;re funded</a></div>
+      <p>The receipts: every paid placement, and the list of things not for sale at any price. If you don&rsquo;t trust anything above, read this first.</p></div>
+  </div>
+
+  <div class="starthere">
+    <div class="sh"><span class="sh-l">On call, no budget</span><b><a href="#stack">The Minimum Viable Stack</a></b><span>Seven free tools, one afternoon.</span></div>
+    <div class="sh"><span class="sh-l">Choosing what to buy</span><b><a href="#matrix">The Coverage Matrix</a></b><span>Filter to your role, then read the &ldquo;where free stops&rdquo; column.</span></div>
+    <div class="sh"><span class="sh-l">Justifying it to someone else</span><b><a href="#ledger">The Ledger</a></b><span>Every entry is written for the conversation you&rsquo;re about to have.</span></div>
+  </div>
+</section>
+
+<section class="hero wrap">
+  <p class="eyebrow">Issue № 02</p>
+  <h2 class="hook">Five more entries. Same lesson: the status page is the <em>last</em> to know.</h2>
+  <p class="standfirst">In every outage added this issue, public routing data, a third-party map, or a mailing list showed the failure before the operator did. In one case the operator's status page went down at the same time. <strong>The record of who saw what, and when, is below.</strong></p>
+  <div class="figures">
+    <div class="fig"><span class="fig-n">9</span><span class="fig-l">Entries logged</span></div>
+    <div class="fig"><span class="fig-n" id="figSrc">66</span><span class="fig-l">Sources assessed</span></div>
+    <div class="fig"><span class="fig-n" id="figFree">50</span><span class="fig-l">Cost nothing to use</span></div>
+    <div class="fig"><span class="fig-n">5</span><span class="fig-l">New this issue</span></div>
+  </div>
+</section>
+
+
+<div class="wrap leaderboard">
+  <span class="adlabel">Advertisement</span>
+  <div class="adslot">
+    <span class="adname">Your brand here</span>
+    <p>Masthead unit, above the Ledger. Seen by every reader before any editorial content.</p>
+  </div>
+</div>
+
+<section class="section wrap reveal" id="ledger">
+  <div class="section-head">
+    <h2>The Ledger</h2>
+    <p class="section-note">A permanent record. One page per event.</p>
+  </div>
+  <p class="lede">Outages get covered for two days and then disappear. The ledger is the opposite: a standing entry for every event that mattered, written for the person who has to justify the budget afterwards. Nine entries; the five added this issue run 2023 to 2026.</p>
+
+  <div class="ledger">
+    <div class="lrow lhead">
+      <div class="perf">№</div>
+      <div>Event</div>
+      <div>Date</div>
+      <div>Duration</div>
+      <div>Exposure</div>
+      <div>Surfaced first by</div>
+    </div>
+
+    <div class="lrow">
+      <div class="perf">01</div>
+      <div class="levent">Meta withdraws its own routes
+        <span class="lsub">A configuration change pulled Meta's prefixes out of the global routing table. Its own authoritative DNS went with them, taking staff badge and tooling access down alongside the public product.</span>
+      </div>
+      <div class="lmono">2021-10-04</div>
+      <div class="lmono">~6 hrs</div>
+      <div><span class="sev sev-severe">Severe</span></div>
+      <div class="ldetect">Public BGP collectors, minutes before any status page updated</div>
+    </div>
+
+    <div class="lrow">
+      <div class="perf">02</div>
+      <div class="levent">Rogers takes down a country
+        <span class="lsub">A core network change cascaded into a nationwide failure across mobile, broadband, and payments. Emergency calling was affected. Regulatory consequences followed.</span>
+      </div>
+      <div class="lmono">2022-07-08</div>
+      <div class="lmono">15+ hrs</div>
+      <div><span class="sev sev-severe">Severe</span></div>
+      <div class="ldetect">Routing withdrawals visible externally well ahead of official notice</div>
+    </div>
+
+    <div class="lrow">
+      <div class="perf">03</div>
+      <div class="levent">Cloudflare's upgrade goes sideways
+        <span class="lsub">A change during a planned network upgrade dropped traffic across a set of the busiest locations. Short, sharp, and highly visible — a good case study in blast-radius concentration.</span>
+      </div>
+      <div class="lmono">2022-06-21</div>
+      <div class="lmono">~90 min</div>
+      <div><span class="sev sev-major">Major</span></div>
+      <div class="ldetect">Third-party path monitoring, then a same-day vendor post-mortem</div>
+    </div>
+
+    <div class="lrow">
+      <div class="perf">04</div>
+      <div class="levent">CenturyLink / Level 3 propagates a fault
+        <span class="lsub">A traffic-filtering rule spread through the backbone and degraded reachability for a large share of downstream networks — including customers who had bought redundancy and still went dark.</span>
+      </div>
+      <div class="lmono">2020-08-30</div>
+      <div class="lmono">~5 hrs</div>
+      <div><span class="sev sev-major">Major</span></div>
+      <div class="ldetect">Downstream operators on public lists, ahead of the carrier</div>
+    </div>
+
+    <div class="lrow">
+      <div class="perf">05</div>
+      <div class="levent">Optus loses a country for a day
+        <span class="lsub">A software upgrade on an international peer pushed routing information past preset safety limits on Optus's edge routers, which disconnected themselves. Mobile, broadband, and landline emergency calling failed for more than ten million people. The CEO resigned twelve days later.</span>
+      </div>
+      <div class="lmono">2023-11-08</div>
+      <div class="lmono">~14 hrs</div>
+      <div><span class="sev sev-severe">Severe</span></div>
+      <div class="ldetect">Public BGP collectors saw AS4804 withdrawing at 17:04 UTC. Optus's explanation came five days later.</div>
+    </div>
+
+    <div class="lrow">
+      <div class="perf">06</div>
+      <div class="levent">A password takes a carrier off the map
+        <span class="lsub">A RIPE NCC login found in a public credential leak (the password was <em>ripeadmin</em>) let an attacker rewrite Orange España's route origin authorisations, turning its own announcements RPKI-invalid. Globally visible routes fell from roughly 9,200 to 7,400 and inbound traffic collapsed.</span>
+      </div>
+      <div class="lmono">2024-01-03</div>
+      <div class="lmono">~4 hrs</div>
+      <div><span class="sev sev-major">Major</span></div>
+      <div class="ldetect">RPKI validators and public route-visibility tools, hours before Orange confirmed the account takeover</div>
+    </div>
+
+    <div class="lrow">
+      <div class="perf">07</div>
+      <div class="levent">AWS empties its own DNS record
+        <span class="lsub">Two DynamoDB DNS automation workers raced each other in us-east-1 and left the regional endpoint with no record at all. The DNS fault was repaired in under three hours; the cascade through EC2, Lambda, and load balancers took until mid-afternoon Pacific, and hundreds of services that never mentioned Northern Virginia went down with it.</span>
+      </div>
+      <div class="lmono">2025-10-20</div>
+      <div class="lmono">~15 hrs</div>
+      <div><span class="sev sev-severe">Severe</span></div>
+      <div class="ldetect">Third-party DNS and path monitoring, and downstream operators comparing notes, well ahead of the post-event summary</div>
+    </div>
+
+    <div class="lrow">
+      <div class="perf">08</div>
+      <div class="levent">Cloudflare doubles a file and drops the web
+        <span class="lsub">A database permissions change produced duplicate rows in the Bot Management feature file. The file exceeded its size limit and the core proxy failed across the network. Cloudflare's own team spent the first hour suspecting a DDoS, partly because its status page, hosted entirely off Cloudflare, went down at the same moment by coincidence.</span>
+      </div>
+      <div class="lmono">2025-11-18</div>
+      <div class="lmono">~3 hrs core · 5¾ full</div>
+      <div><span class="sev sev-severe">Severe</span></div>
+      <div class="ldetect">Everyone at once — user reports and third-party monitors — while the status page itself was unreachable</div>
+    </div>
+
+    <div class="lrow">
+      <div class="perf">09</div>
+      <div class="levent">A cleanup job withdraws a quarter of the customer prefixes
+        <span class="lsub">An automated task misread an empty parameter as "all" and withdrew about 1,100 of Cloudflare's 4,306 customer-owned (BYOIP) prefixes from the routing table. Customers on Magic Transit, Spectrum, and CDN with their own address space went dark. Incident response engaged seventeen minutes after the first failures on 1.1.1.1.</span>
+      </div>
+      <div class="lmono">2026-02-20</div>
+      <div class="lmono">~6 hrs</div>
+      <div><span class="sev sev-major">Major</span></div>
+      <div class="ldetect">Route withdrawals in public BGP data; internally, the trigger was one.one.one.one returning errors</div>
+    </div>
+  </div>
+
+  <p class="footnote"><b>Editorial note.</b> Exposure is a judgement band, not a computed figure — we do not publish invented dollar amounts. Verify every date, duration, and attribution against primary post-mortems before this goes live.</p>
+  <p class="footnote"><b>Primary sources, entries 05–09.</b>
+    05 <a href="https://www.kentik.com/blog/digging-into-the-optus-outage/">Kentik, Digging into the Optus outage</a> ·
+    06 <a href="https://www.kentik.com/blog/digging-into-the-orange-espana-hack/">Kentik, Digging into the Orange España hack</a> ·
+    07 <a href="https://aws.amazon.com/message/101925">AWS post-event summary, us-east-1, October 2025</a> ·
+    08 <a href="https://blog.cloudflare.com/18-november-2025-outage/">Cloudflare, outage of 18 November 2025</a> ·
+    09 <a href="https://blog.cloudflare.com/cloudflare-outage-february-20-2026/">Cloudflare, outage of 20 February 2026</a>.
+    Entries 01–04 were sourced for № 01 and are unchanged.</p>
+</section>
+
+
+<section class="findings" id="findings">
+  <div class="wrap section">
+    <div class="section-head">
+      <h2>Findings</h2>
+      <span class="presented">Supported by <b>Your brand here</b></span>
+      <p class="section-note">Three charts. Every figure computed from the matrix below. Our supporter saw none of them before publication.</p>
+    </div>
+    <p class="lede">These are not survey results — the annual survey comes later. This is what falls out of assessing all 66 sources on the same criteria, which nobody else does.</p>
+
+    <div class="chart-block">
+      <div class="chart-head"><span class="chart-num">Fig. 01</span><h3>The whole space, by what it costs</h3></div>
+      <p class="chart-desc">Every source in the matrix, split by access tier. The result is the single most useful thing on this page for anyone who has been told there is no budget.</p>
+      <div class="chart" id="fig1"></div>
+      <div class="legend" id="leg1"></div>
+      <p class="takeaway" id="take1"></p>
+    </div>
+
+    <div class="chart-block">
+      <div class="chart-head"><span class="chart-num">Fig. 02</span><h3>Where the money actually is</h3></div>
+      <p class="chart-desc">The same split, broken out by the seven buyer questions. The paid tools are not spread evenly — they cluster hard in one place, and it is worth knowing which before you plan a budget.</p>
+      <div class="chart" id="fig2"></div>
+      <div class="legend" id="leg2"></div>
+      <p class="takeaway" id="take2"></p>
+    </div>
+
+    <div class="chart-block">
+      <div class="chart-head"><span class="chart-num">Fig. 03</span><h3>Who the free tier serves</h3></div>
+      <p class="chart-desc">Sources grouped by which buyer they suit, then by access. This is the chart that explains why the people closest to the incident rarely ask for money, and why the request only surfaces once it reaches an exec.</p>
+      <div class="chart" id="fig3"></div>
+      <div class="legend" id="leg3"></div>
+      <p class="takeaway" id="take3"></p>
+    </div>
+  </div>
+</section>
+
+<section class="section wrap" id="stack">
+  <div class="section-head">
+    <h2>The Minimum Viable Stack</h2>
+    <p class="section-note">One free starting point per question, and what staying free costs you.</p>
+  </div>
+  <p class="lede">If you did nothing else, this is the stack. Seven questions, seven free answers, assembled in an afternoon. The last column is the honest part — the argument for spending money starts there, not with a vendor deck.</p>
+
+  <div class="stack">
+    <div class="srow shead">
+      <div class="perf">№</div>
+      <div>The question</div>
+      <div>Start here — free</div>
+      <div>When you outgrow it</div>
+      <div>What staying free costs you</div>
+    </div>
+    <div id="stackrows"></div>
+  </div>
+  <p class="footnote"><b>Editorial note.</b> Recommendations are ours and unpaid. Nobody has been briefed, pitched, or given advance sight of this table.</p>
+</section>
+
+<section class="section wrap reveal" id="matrix">
+  <div class="section-head">
+    <h2>The Coverage Matrix</h2>
+    <p class="section-note">66 sources, filed under the seven questions buyers actually ask. Bands checked September 2026.</p>
+  </div>
+  <p class="lede">Every other list of these tools is sorted by what they are. This one is sorted by what you were trying to find out when you went looking — because nobody wakes up wanting a BGP tool. They wake up wanting to know whether the outage is theirs.</p>
+
+  <nav class="contents">
+    <span class="contents-label">Contents</span>
+    <ol id="toc"></ol>
+  </nav>
+
+  <div class="controls">
+    <div>
+      <span class="ctl-label">Access</span>
+      <div class="chips" id="chips-access">
+        <button class="chip" aria-pressed="true" data-f="all">All</button>
+        <button class="chip" aria-pressed="false" data-f="Free">Free</button>
+        <button class="chip" aria-pressed="false" data-f="Freemium">Freemium</button>
+        <button class="chip" aria-pressed="false" data-f="Commercial">Commercial</button>
+      </div>
+    </div>
+    <div>
+      <span class="ctl-label">Buyer</span>
+      <div class="chips" id="chips-fit">
+        <button class="chip" aria-pressed="true" data-f="all">All</button>
+        <button class="chip" aria-pressed="false" data-f="Ops">Ops</button>
+        <button class="chip" aria-pressed="false" data-f="Architecture">Architecture</button>
+        <button class="chip" aria-pressed="false" data-f="Exec">Exec</button>
+      </div>
+    </div>
+    <div>
+      <span class="ctl-label">Search</span>
+      <input class="searchbox" id="q" type="search" placeholder="name or job…" aria-label="Search sources">
+    </div>
+    <div class="count" id="count">66 shown</div>
+  </div>
+
+  <div class="matrix" id="matrix">
+    <div class="mrow mhead">
+      <div class="perf">№</div>
+      <div>Source</div>
+      <div>What it does for you</div>
+      <div>Access</div>
+      <div>Where free stops</div>
+      <div>Buyer</div>
+    </div>
+    <div id="rows"></div>
+  </div>
+
+  <p class="footnote"><b>Editorial note.</b> Access bands are our classification, not quoted pricing. Re-checked for № 02 in September 2026: bgp.tools moved from Free to Freemium (alerting and commercial use now start at £25 a month), and IODA, Catchpoint Internet Sonar, Internet Society Pulse, and Downdetector were added under the first question.</p>
+</section>
+
+
+
+<section class="opinion" id="opinion">
+  <div class="wrap section">
+    <div class="section-head">
+      <h2>Opinion</h2>
+      <p class="section-note">Lighter. Still ours. Nobody paid for these.</p>
+    </div>
+    <p class="lede">Three questions the Coverage Matrix cannot answer, addressed here at insufficient length and with no methodology whatsoever. New for № 02; the first three are kept below.</p>
+
+    <div class="ogrid">
+      <div class="ocol">
+        <div class="orule" style="background:#8B2635"></div>
+        <span class="okicker" style="color:#8B2635">The instrument</span>
+        <h3>Why is the status page always the last to know?</h3>
+        <p class="olede">Because it is written by the people who most need it to say nothing is wrong.</p>
+        <p>A status page is not a measurement. It is a press release with a colour scheme. Somebody has to decide that the thing is down, get that decision approved, and then type it. Every one of those steps happens after the outage, and each has a person in it who would prefer it were not true.</p>
+        <p>The five events added to the Ledger this issue make the point five different ways. Optus took five days to explain itself. AWS needed a post-event summary to explain a DNS record that had been empty since midnight. Cloudflare's status page — hosted off Cloudflare precisely so this could not happen — went down anyway, by coincidence, and convinced the engineers they were under attack.</p>
+        <p>None of this is scandal. It is what a status page is. <strong>If you want to know first, read an instrument. If you want to know officially, read the status page. Do not confuse the two on a Tuesday afternoon.</strong></p>
+        <span class="obyline">The Editor · 2 min</span>
+      </div>
+
+      <div class="ocol">
+        <div class="orule" style="background:#9A6B12"></div>
+        <span class="okicker" style="color:#9A6B12">Security</span>
+        <h3>The most consequential routing attack of the decade needed no exploit</h3>
+        <p class="olede">The password was <em>ripeadmin</em>. It had been sitting in a public credential leak.</p>
+        <p>The industry spent a decade building RPKI so that a stolen route would be rejected by every network that validates. It worked. On 3 January 2024 it rejected Orange España's own routes, on instruction from whoever logged in to the registry with a password a child would guess, and a fifth of the carrier's routes vanished for an afternoon.</p>
+        <p>The lesson is not that RPKI is dangerous. Reject-invalid did exactly what it was told. The lesson is that the routing system now has a control plane with a login page, and the login page is the attack surface. Two-factor authentication on the registry account is cheaper than any tool in the matrix and more important than most of them.</p>
+        <p><strong>You do not need a BGP monitoring contract to be safe from this. You need a password manager and an adult in charge of the RIR account.</strong> Buy the contract as well — but do that first.</p>
+        <span class="obyline">The Editor · 2 min</span>
+      </div>
+
+      <div class="ocol">
+        <div class="orule" style="background:#33417E"></div>
+        <span class="okicker" style="color:#33417E">Geography, again</span>
+        <h3>We said the capital of the internet was a Virginia suburb. In October it proved it.</h3>
+        <p class="olede">us-east-1 is Loudoun County with a product name.</p>
+        <p>Last issue we argued that the internet had ended up in Ashburn, and that the share-of-traffic figures quoted about the place were mostly economic-development marketing. On 20 October a DNS record in one region emptied itself and a good part of the consumer internet went with it. Nobody needed a marketing figure after that.</p>
+        <p>The uncomfortable part for buyers is that most of the companies that went down had never made a decision about Northern Virginia. They bought a SaaS product which bought another SaaS product which was in us-east-1 because it is the default in the console. Dependency is not something you chose; it is something you inherited.</p>
+        <p><strong>The question for the matrix is not "which cloud" but "which region, three suppliers deep."</strong> The tools under question two will answer it, and almost nobody asks.</p>
+        <span class="obyline">The Editor · 2 min</span>
+      </div>
+    </div>
+
+    <details class="archive">
+      <summary><span class="okicker" style="color:var(--ink-soft)">From № 01 · August 2026</span><span class="archive-t">Are network people disturbed? · The capital of the internet · The MVP is a university project</span></summary>
+      <div class="ogrid">
+      <div class="ocol">
+        <div class="orule" style="background:#8B2635"></div>
+        <span class="okicker" style="color:#8B2635">The profession</span>
+        <h3>Are network people disturbed?</h3>
+        <p class="olede">Yes. Thank you for reading.</p>
+        <p>The longer answer is that the field selects hard for a particular temperament. These are people who find a clean routing table emotionally satisfying, who name production routers after Norse gods and then appear genuinely surprised when Loki fails, and who hold views on cable management strong enough to end a friendship.</p>
+        <p>The pager at 3am is not the tell — plenty of jobs have one. The tell is that they <strong>volunteer</strong> for it, and then recount the incident fondly a decade later, unprompted, at a wedding.</p>
+        <p>Every other engineering discipline builds something a person can point at. Network engineers build the absence of a problem. The reward for flawless work is that nobody learns your name. You have to be assembled a certain way to sign up for that, and it is not entirely a well way. But the internet mostly works because of people constitutionally incapable of leaving a suboptimal path alone at midnight. <strong>Disturbed is doing load-bearing work in that sentence.</strong></p>
+        <span class="obyline">The Editor · 2 min</span>
+      </div>
+
+      <div class="ocol">
+        <div class="orule" style="background:#33417E"></div>
+        <span class="okicker" style="color:#33417E">Geography</span>
+        <h3>The capital of the internet is somewhere you would never choose to go</h3>
+        <p class="olede">Not London. Not Tokyo. Not San Francisco. Loudoun County, Virginia.</p>
+        <p>Amsterdam and Frankfurt have the stronger claim on romance — AMS-IX and DE-CIX are exchange points with genuine civic identity, the sort of infrastructure a city puts on a poster. Marseille has the better claim on drama, where the subsea cables come ashore and Europe's link to three continents arrives on one stretch of coast. Singapore has the better claim on strategy.</p>
+        <p>Ashburn has none of these. It has office parks, arterial roads, and a data centre tax base that local government discusses with visible emotion. The share-of-traffic figures you see quoted about the place are mostly economic-development marketing and should be treated as such.</p>
+        <p>But capitals are not about romance. They are about where the decisions physically land. <strong>The internet was supposed to be everywhere. It ended up in a Virginia commuter suburb.</strong></p>
+        <span class="obyline">The Editor · 2 min</span>
+      </div>
+
+      <div class="ocol">
+        <div class="orule" style="background:#1C5C58"></div>
+        <span class="okicker" style="color:#1C5C58">The award</span>
+        <h3>The MVP is a university project running on a budget you would find insulting</h3>
+        <p class="olede">Not a vendor. Not a hyperscaler. RouteViews.</p>
+        <p>Since the nineties it has quietly archived the global routing table, and essentially every serious outage post-mortem you have ever read leans on it. Every hijack reconstruction. Every "here is what actually happened at 14:07 UTC." Every topology paper. It is the flight recorder for the entire routing system.</p>
+        <p>It is also run out of a university on funding that would embarrass a mid-sized marketing department. MVP awards normally go to whoever shipped the shiniest object. In this field it should go to whoever kept the boring thing running for three decades without being asked.</p>
+        <p><strong>Honourable mentions.</strong> PeeringDB, held together substantially by volunteers and trusted by everyone who has ever complained about it. And RIPE Atlas, which somehow persuaded thousands of people to plug a stranger's hardware into their home network for no reward at all.</p>
+        <span class="obyline">The Editor · 2 min</span>
+      </div>
+    </div>
+    </details>
+  </div>
+</section>
+
+<section class="partner" id="partner">
+  <div class="wrap section">
+    <div class="section-head">
+      <h2>Partner content</h2>
+      <p class="section-note">Written and paid for by the named sponsor. Not written by Pharos.</p>
+    </div>
+    <p class="lede">These are advertisements in article form. They sit here, never in the Ledger and never in the Findings, and they carry the sponsor's name at the top and the bottom.</p>
+    <div class="pgrid">
+      <div class="pcard">
+        <span class="adlabel">Paid post</span>
+        <h4>Your 800 words, in your voice</h4>
+        <p>A full article slot with your own headline, byline, and call to action. We check it for accuracy and legality, and we do not edit your argument.</p>
+        <span class="pby">Paid for by — sponsor name</span>
+      </div>
+      <div class="pcard">
+        <span class="adlabel">Paid post</span>
+        <h4>Case study slot</h4>
+        <p>Bring a customer story with real numbers. These outperform product posts by a wide margin with this audience, because the audience is checking your claims.</p>
+        <span class="pby">Paid for by — sponsor name</span>
+      </div>
+      <div class="pcard">
+        <span class="adlabel">Available</span>
+        <h4>Third slot open</h4>
+        <p>Two paid posts run per issue alongside one open slot. We cap the ratio deliberately so the section stays worth reading.</p>
+        <span class="pby">Enquire — hello@pharos.example</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="survey" id="survey">
+  <div class="wrap">
+    <div class="survey-inner">
+      <div>
+        <h2>The State of Network Visibility survey</h2>
+        <p class="survey-note">One survey a year &middot; Published free, in full &middot; In the field's own words</p>
+        <span class="presented">Underwritten by <b>Your brand here</b></span>
+        <p>There is no independent benchmark for what these teams actually run &mdash; only vendor case studies and the tools your last employer happened to buy. That is the gap this closes.</p>
+        <p>Once a year we ask the people who actually run and buy this tooling what they use, what they dropped, and what they wish they'd bought before their last bad night.</p>
+        <p>Results are published in full and free. Respondents get them a fortnight early, with the cuts by company size and region that don't make the public version.</p>
+        <a class="btn" href="#">Join the respondent list</a>
+      </div>
+      <div>
+        <span class="ctl-label">What we ask</span>
+        <ul>
+          <li>Tools in production, and what they replaced</li>
+          <li>Time from incident start to internal awareness</li>
+          <li>Annual spend band on visibility and monitoring</li>
+          <li>Who signs off, and what evidence they need</li>
+          <li>The last thing you were told to cut</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section class="section wrap" id="advertise">
+  <div class="section-head">
+    <h2>Advertise with Pharos</h2>
+    <p class="section-note">Six units. The fourth column is the one that matters.</p>
+  </div>
+  <p class="lede">You are buying attention from an audience that authorises spend. You are not buying position, scores, or a softer assessment — those are not for sale at any price, because the moment they are, the audience you came for stops reading and there is nothing left to buy.</p>
+
+  <div class="ratecard">
+    <div class="arow ahead">
+      <div class="perf">№</div>
+      <div>Unit</div>
+      <div>Where it runs</div>
+      <div>What it does not buy</div>
+      <div>Rate</div>
+    </div>
+    <div id="raterows"></div>
+  </div>
+
+  <p class="lede" style="margin-top:32px">A verified listing looks like this in the Coverage Matrix. The badge confirms the vendor checked their own pricing and free-tier limits. The row does not move and the assessment does not change.</p>
+  <div class="matrix" style="border-top:1.5px solid var(--ink)">
+    <div class="mrow stripe">
+      <div class="perf">—</div>
+      <div class="msrc">Example Networks<span class="verified">Vendor verified</span></div>
+      <div class="mjob">Illustration only — no vendor has purchased this</div>
+      <div><span class="tag t-freemium">Freemium</span></div>
+      <div class="mceil">Free-tier limits confirmed by the vendor, wording unchanged</div>
+      <div class="mfit">Ops</div>
+    </div>
+  </div>
+</section>
+
+<section class="disclosure wrap" id="disclosure">
+  <div class="section-head" style="margin-bottom:30px">
+    <h2>How we're funded</h2>
+    <p class="section-note">We take money from vendors. Here is exactly what it buys.</p>
+  </div>
+  <p class="disc-lede">Independence is a claim until somebody shows the accounts. These are ours: what money buys here, what it cannot buy at any price, and what happens when a sponsor asks for more than they bought.</p>
+  <div class="disc-grid">
+    <div>
+      <h3>What is paid for</h3>
+      <p>The masthead unit, section support lines, partner content, newsletter units, survey underwriting, and verified listings. <strong>Every one of them carries a label saying so</strong>, at the top of the unit, in the same size as the surrounding text.</p>
+      <p>If you cannot tell whether something on this site was paid for, that is a fault. Report it and we will fix the labelling.</p>
+    </div>
+    <div>
+      <h3>What is not for sale</h3>
+      <p><strong>Position in the Coverage Matrix. Access bands. The free-tier column. Which sources are listed at all. Entries in the Ledger, and how they are written.</strong></p>
+      <p>A verified listing lets a vendor confirm their own pricing and limits and adds a badge. It does not move the row and does not change the assessment.</p>
+    </div>
+    <div>
+      <h3>How we handle sponsors</h3>
+      <p>Sponsors see nothing before publication — not the charts, not the matrix, not the survey results. They are told their unit's placement and nothing about the editorial around it.</p>
+      <p>Vendors may correct factual errors at any time, paying or not. <strong>We publish the correction and who asked for it.</strong></p>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <span>Pharos — Issue № 02 · September 2026</span>
+    <span>Ratings unpaid · All advertising labeled · Corrections welcome</span>
+    <span class="origin">Named for the lighthouse at Alexandria — a fixed structure whose only job was warning ships what lay ahead.</span>
+  </div>
+</footer>
+
+<script>
+const DATA = [
+["Hurricane Electric BGP Toolkit","Look up any network's ASN, prefixes, and peers","Free","No alerting, no history, no API","Ops"],
+["bgp.tools","Inspect routing, peering, and RPKI status per network","Freemium","Free is personal, non-commercial use only; alerting and API from £25 a month","Ops"],
+["RIPEstat","Pull the routing and address history of any resource","Free","No alerting; research-grade, not ops-grade","Architecture"],
+["RIPE RIS / RIS Live","Stream global BGP updates in real time","Free","Raw feed — you build the tooling around it","Architecture"],
+["CAIDA AS Rank","Rank a network's reach and transit position","Free","Academic cadence, not a live view","Architecture"],
+["RouteViews","Access archived global routing tables","Free","Raw archives, no interface","Architecture"],
+["Kentik Market Intelligence","See who buys transit from whom","Free","Positioning view; depth needs the Kentik platform","Exec"],
+["Kentik Network Analysis Center","Read analysis of live internet events","Free","Editorial, not a monitoring feed","Exec"],
+["Kentik BGP Monitoring","Alert on route leaks and hijacks affecting you","Commercial","—","Ops"],
+["Cloudflare Radar","Track traffic, outages, and adoption trends","Free","One vendor's vantage point","Exec"],
+["PeeringDB","Verify where a network actually interconnects","Free","Self-reported; no verification layer","Architecture"],
+["BGPView","Query ASN and prefix data through an API","Freemium","Rate limits on the free API","Ops"],
+["CAIDA BGPStream","Analyse historical BGP events programmatically","Free","Needs engineering effort to operate","Architecture"],
+["MANRS Observatory","Score a network's routing-security hygiene","Free","Measurement only; no enforcement","Exec"],
+["Internet Health Report","Assess dependency and single-point-of-failure risk","Free","Research output; interpretation required","Architecture"],
+["Qrator Radar","Review AS connectivity and routing risk","Freemium","Deeper data requires an account","Architecture"],
+["CIDR Report","Watch routing table growth over time","Free","Single purpose; no per-network view","Architecture"],
+["Potaroo BGP Reports","Track long-run routing and address trends","Free","Statistical, not operational","Exec"],
+["GRIP (Georgia Tech)","Detect and study BGP anomalies","Free","Research project; no SLA","Architecture"],
+["ThousandEyes","Measure path and application performance end to end","Commercial","—","Ops"],
+["ThousandEyes Outage Map","Check whether an outage is yours or theirs","Free","Detection only; no drill-down","Exec"],
+["IPinfo","Attribute an IP to a company, carrier, or place","Freemium","Volume and accuracy tiers are paid","Ops"],
+["BGPKIT","Build on parsed BGP data without the plumbing","Freemium","Hosted APIs are metered","Architecture"],
+["BGPalerter","Self-host alerting for your own prefixes","Free","You run it, you tune it","Ops"],
+["ARTEMIS","Detect hijacks of your own address space","Free","Deployment and tuning are on you","Ops"],
+["RIPE Atlas","Measure reachability from thousands of vantage points","Free","Credit system — you spend what you earn","Ops"],
+["RIPE IPmap","Locate infrastructure geographically","Free","Coverage is uneven","Architecture"],
+["Robtex","Cross-reference DNS, IP, and routing records","Freemium","Paid tier for depth and speed","Ops"],
+["RADb / IRR","Publish and check routing policy","Commercial","Registration fees; data quality varies by registry","Ops"],
+["RPKI / Routinator","Validate route origins before you trust them","Free","Open source — you operate it","Ops"],
+["APNIC Blog","Follow deep technical writing on routing","Free","—","Architecture"],
+["RIPE Labs","Read operator-authored measurement work","Free","—","Architecture"],
+["Cloudflare Blog","Get post-mortems on internet-scale events","Free","One vendor's vantage point","Exec"],
+["Kentik Blog","Follow observability and traffic-analysis practice","Free","One vendor's vantage point","Exec"],
+["ThousandEyes Blog","Track cloud and internet performance analysis","Free","One vendor's vantage point","Exec"],
+["ThousandEyes Internet Report","Get a recurring read on outage volume","Free","One vendor's vantage point","Exec"],
+["CAIDA","Access peer-reviewed internet measurement","Free","Publication lag of months to years","Architecture"],
+["MANRS","Understand routing-security norms and commitments","Free","Advocacy, not audit","Exec"],
+["Internet Society","Follow infrastructure and resilience policy","Free","Policy level, not operational","Exec"],
+["NANOG","Watch operators debate what actually breaks","Free","Mailing-list signal-to-noise","Architecture"],
+["Packet Pushers","Hear practitioner takes on tooling","Free","Sponsored segments, disclosed","Ops"],
+["Total Network Operations","Read NOC process and practice","Free","Narrow focus","Ops"],
+["Network World","Track enterprise networking news","Free","Broad enterprise IT framing","Exec"],
+["Network Computing","Follow infrastructure buying trends","Free","Broad enterprise IT framing","Exec"],
+["The Register — Networking","Get sceptical coverage of vendor claims","Free","Opinionated by design","Exec"],
+["Light Reading","Follow carrier and optical market moves","Free","Carrier-side focus","Exec"],
+["TeleGeography","Model capacity, subsea, and carrier markets","Commercial","Maps are free; the datasets are not","Exec"],
+["Capacity Media","Track wholesale and interconnect deals","Freemium","Analysis behind a paywall","Exec"],
+["Data Center Dynamics","Follow facility and connectivity buildouts","Free","Facility-side focus","Exec"],
+["Fierce Network","Track telecom industry moves","Free","Broad telecom framing","Exec"],
+["Broadband Breakfast","Follow broadband policy and funding","Free","US policy focus","Exec"],
+["ACM SIGCOMM","Read the research that becomes practice in five years","Freemium","Some papers are paywalled","Architecture"],
+["IETF Blog","See which protocols are actually advancing","Free","Standards-process detail","Architecture"],
+["Internet2","Follow research and education network operations","Free","R&E context may not transfer","Architecture"],
+["NLNOG","Tap Dutch operator practice and tooling","Free","Regional","Ops"],
+["MENOG","Follow Middle East operator practice","Free","Regional","Ops"],
+["UKNOF","Follow UK operator practice","Free","Regional","Ops"],
+["AusNOG","Follow Australian operator practice","Free","Regional","Ops"],
+["PeeringDB Blog / Community","Keep up with interconnection practice","Free","Narrow focus","Architecture"],
+["Cisco Networking Blog","Track vendor roadmap and automation","Free","One vendor's vantage point","Ops"],
+["Juniper Networks Blog","Track vendor roadmap and NetOps practice","Free","One vendor's vantage point","Ops"],
+["Arista Blog","Track data-centre networking direction","Free","One vendor's vantage point","Architecture"],
+["IODA (Georgia Tech)","See country- and network-level outages from BGP, probing, and darknet signals","Free","Research project; near-real-time but no per-prefix alerting","Ops"],
+["Catchpoint Internet Sonar map","See which SaaS and infrastructure providers are down right now","Freemium","Free map shows 24 hours and a sample of services; drill-down, API, and alerts are paid","Exec"],
+["Internet Society Pulse","Track shutdowns, country resilience, and IXP presence","Free","Country level, not network level","Exec"],
+["Downdetector","See whether users are reporting a provider down","Freemium","Crowd-sourced; enterprise feed and API are paid","Exec"]
+];
+
+const GROUPS = [
+  {q:"Is it us, or is it them?",
+   d:"The first question of every incident. These tell you whether the problem is inside your network, at your provider, or somewhere in the wider internet — before support tickets answer it for you.",
+   c:'#8B2635', s:'Is it us or them?',
+   m:[9,19,20,62,63,65,35,7,25,12,3,18,64]},
+  {q:"Who is this network, and what does it depend on?",
+   d:"Due diligence on a provider, a partner, or an acquisition target. Reach, transit relationships, single points of failure, and whether the redundancy in the proposal is real.",
+   c:'#1C5C58', s:'Who is this network?',
+   m:[0,1,2,11,4,5,14,15,27,21,26,22]},
+  {q:"Are we exposed to a hijack or a leak?",
+   d:"Whether your own address space can be stolen or misdirected, and whether you'd know. This is the group that turns up in security questionnaires and increasingly in insurance forms.",
+   c:'#9A6B12', s:'Are we exposed?',
+   m:[13,29,23,24,8,28,37]},
+  {q:"Where should we buy connectivity, and from whom?",
+   d:"Procurement and interconnection. Who is present in which facility, who carries whose traffic, and what the market is charging.",
+   c:'#33417E', s:'Where do we buy?',
+   m:[10,6,46,58,47,45]},
+  {q:"What do practitioners actually run?",
+   d:"Where the people doing the work say what worked. Slower than a vendor briefing and considerably more honest — most tooling decisions are made here first.",
+   c:'#4A6410', s:'What do peers run?',
+   m:[39,54,55,56,57,40,41,30,31]},
+  {q:"What's moving in the market?",
+   d:"Industry and vendor coverage. Useful for context and board reading; treat vendor-published material as positioning rather than research.",
+   c:'#6B3A6E', s:'Market moves',
+   m:[42,43,44,49,48,50,32,33,34,59,60,61,38]},
+  {q:"What's coming next?",
+   d:"Research and standards. Two to five years ahead of procurement — read these when you're setting direction rather than solving today's problem.",
+   c:'#2E5A78', s:'What\'s coming next?',
+   m:[36,51,52,53,16,17]}
+];
+
+const rowsEl = document.getElementById('rows');
+const tocEl = document.getElementById('toc');
+const countEl = document.getElementById('count');
+const qEl = document.getElementById('q');
+let fAccess = 'all', fFit = 'all';
+
+const esc = s => s.replace(/[&<>]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+
+function render(){
+  const q = qEl.value.trim().toLowerCase();
+  const out = [];
+  let total = 0;
+
+  GROUPS.forEach((g, gi) => {
+    const kept = [];
+    g.m.forEach(i => {
+      const [src, job, access, ceiling, fit] = DATA[i];
+      if (fAccess !== 'all' && access !== fAccess) return;
+      if (fFit !== 'all' && fit !== fFit) return;
+      if (q && !(src + ' ' + job).toLowerCase().includes(q)) return;
+      kept.push([i, src, job, access, ceiling, fit]);
+    });
+    if (!kept.length) return;
+    total += kept.length;
+
+    out.push(
+      '<div class="ghead" id="g' + gi + '" style="border-top-color:' + g.c + '">' +
+        '<span class="gnum" style="color:' + g.c + '">' + String(gi + 1).padStart(2, '0') + '</span>' +
+        '<h3 class="gq">' + esc(g.q) + '</h3>' +
+        '<span class="gcount" style="color:' + g.c + '">' + kept.length +
+          ' source' + (kept.length === 1 ? '' : 's') + '</span>' +
+        '<p class="gdesc">' + esc(g.d) + '</p>' +
+      '</div>'
+    );
+
+    kept.forEach(([i, src, job, access, ceiling, fit], k) => {
+      out.push(
+        '<div class="mrow' + (k % 2 ? ' stripe' : '') + '">' +
+          '<div class="perf">' + String(i + 1).padStart(2, '0') + '</div>' +
+          '<div class="msrc">' + esc(src) +
+            (VERIFIED.indexOf(i) > -1 ? '<span class="verified">Vendor verified</span>' : '') + '</div>' +
+          '<div class="mjob">' + esc(job) + '</div>' +
+          '<div><span class="tag t-' + access.toLowerCase() + '">' + access + '</span></div>' +
+          '<div class="mceil">' + esc(ceiling) + '</div>' +
+          '<div class="mfit">' + esc(fit) + '</div>' +
+        '</div>'
+      );
+    });
+  });
+
+  rowsEl.innerHTML = total
+    ? out.join('')
+    : '<div class="empty"><b>Nothing matches those filters.</b>Clear the search, or widen the access band.</div>';
+
+  countEl.textContent = total + ' shown';
+}
+
+function buildToc(){
+  tocEl.innerHTML = GROUPS.map((g, gi) =>
+    '<li><a href="#g' + gi + '"><i class="toc-dot" style="background:' + g.c + '"></i>' + esc(g.q) + '</a></li>'
+  ).join('');
+}
+buildToc();
+
+const A_COL = {Free:'#1C5C58', Freemium:'#9A6B12', Commercial:'#8B2635'};
+const TIERS = ['Free','Freemium','Commercial'];
+const ROLES = ['Ops','Architecture','Exec'];
+
+const STACK = [
+ ["Cloudflare Radar + ThousandEyes Outage Map","ThousandEyes","You learn an outage exists, not where it is. No drill-down, no path evidence for the post-mortem."],
+ ["HE BGP Toolkit + PeeringDB","bgp.tools paid tier","Manual lookups, one network at a time. No bulk export and no history to hand to procurement."],
+ ["Routinator + BGPalerter","Kentik BGP Monitoring","You run it, tune it, and answer the pager yourself. No SLA and nobody to escalate to at 3am."],
+ ["PeeringDB + Kentik Market Intelligence","TeleGeography","Self-reported presence data and no pricing benchmark, so you negotiate without a reference point."],
+ ["NANOG + your regional NOG","Nothing to buy","Nothing. This tier is free, stays free, and is the most under-used thing on the list."],
+ ["The Register + Light Reading","Capacity Media","Deal and wholesale analysis sits behind a paywall, so you see moves late."],
+ ["IETF Blog + APNIC Blog","ACM SIGCOMM","Occasional paywall on primary research; you rely on secondary write-ups."]
+];
+
+function tally(list){
+  const t = {Free:0, Freemium:0, Commercial:0};
+  list.forEach(i => t[DATA[i][2]]++);
+  return t;
+}
+const ALL = DATA.map((_, i) => i);
+
+function legend(el, tiers){
+  document.getElementById(el).innerHTML = tiers.map(t =>
+    '<span><i style="background:' + A_COL[t] + '"></i>' + t + '</span>').join('');
+}
+
+/* ---- Fig 1: single 100% ribbon ---- */
+function fig1(){
+  const t = tally(ALL), total = ALL.length;
+  let x = 0, seg = '', lab = '';
+  TIERS.forEach(k => {
+    const w = t[k] / total * 1000;
+    seg += '<rect x="' + x + '" y="26" width="' + (w - 2) + '" height="52" fill="' + A_COL[k] + '"/>';
+    seg += '<text class="c-val" x="' + (x + 12) + '" y="58">' + t[k] + '</text>';
+    lab += '<text class="c-sub" x="' + x + '" y="98">' + k.toUpperCase() + ' · ' +
+           Math.round(t[k] / total * 100) + '%</text>';
+    x += w;
+  });
+  document.getElementById('fig1').innerHTML =
+    '<svg viewBox="0 0 1000 110" xmlns="http://www.w3.org/2000/svg" role="img" ' +
+    'aria-label="Access split across all ' + total + ' sources">' + seg + lab + '</svg>';
+  legend('leg1', TIERS);
+  document.getElementById('take1').innerHTML =
+    '<b>' + t.Free + ' of ' + total + ' sources cost nothing.</b> Under-tooling in this space is an assembly ' +
+    'problem, not a budget problem — which is a very different conversation to have with a CFO.';
+  const f = document.getElementById('figFree');
+  if (f) f.textContent = t.Free;
+  ['figSrc','srcCount'].forEach(id => { const e = document.getElementById(id); if (e) e.textContent = total; });
+}
+
+/* ---- Fig 2: stacked bars by buyer question ---- */
+function fig2(){
+  const rowH = 46, top = 14, labW = 250, barX = 262, barW = 700;
+  const max = Math.max(...GROUPS.map(g => g.m.length));
+  let out = '';
+  GROUPS.forEach((g, i) => {
+    const y = top + i * rowH, t = tally(g.m);
+    out += '<rect x="' + (labW - 244) + '" y="' + (y + 6) + '" width="4" height="26" fill="' + g.c + '"/>';
+    out += '<text class="c-lab" x="14" y="' + (y + 25) + '">' + g.s + '</text>';
+    let x = barX;
+    TIERS.forEach(k => {
+      if (!t[k]) return;
+      const w = t[k] / max * barW;
+      out += '<rect x="' + x + '" y="' + (y + 5) + '" width="' + Math.max(w - 2, 3) +
+             '" height="28" fill="' + A_COL[k] + '"/>';
+      if (w > 26) out += '<text class="c-val" x="' + (x + 9) + '" y="' + (y + 24) + '">' + t[k] + '</text>';
+      x += w;
+    });
+    out += '<text class="c-sub" x="' + (x + 10) + '" y="' + (y + 24) + '">' + g.m.length + '</text>';
+  });
+  out += '<line class="c-axis" x1="' + barX + '" y1="8" x2="' + barX + '" y2="' + (top + GROUPS.length * rowH) + '"/>';
+  document.getElementById('fig2').innerHTML =
+    '<svg viewBox="0 0 1000 ' + (top + GROUPS.length * rowH + 12) + '" xmlns="http://www.w3.org/2000/svg" ' +
+    'role="img" aria-label="Access tier by buyer question">' + out + '</svg>';
+  legend('leg2', TIERS);
+  const paid = GROUPS.map(g => { const t = tally(g.m); return t.Freemium + t.Commercial; });
+  const worst = paid.indexOf(Math.max(...paid));
+  const free0 = GROUPS.filter((g, i) => paid[i] === 0).length;
+  document.getElementById('take2').innerHTML =
+    '<b>Paid tooling concentrates under &ldquo;' + GROUPS[worst].s + '&rdquo; &mdash; ' + paid[worst] +
+    ' of the ' + GROUPS[worst].m.length + ' sources there charge.</b> ' + free0 +
+    ' of the seven questions have no paid option at all. Budget the concentration, not the category.';
+}
+
+/* ---- Fig 3: grouped columns by buyer role ---- */
+function fig3(){
+  const base = 250, colW = 46, gap = 14, groupW = colW * 3 + gap * 2, slot = 300, left = 130;
+  const counts = ROLES.map(r => tally(ALL.filter(i => DATA[i][4] === r)));
+  const max = Math.max(...counts.map(c => Math.max(...TIERS.map(t => c[t]))));
+  let out = '<line class="c-axis" x1="80" y1="' + base + '" x2="980" y2="' + base + '"/>';
+  ROLES.forEach((r, ri) => {
+    const gx = left + ri * slot;
+    TIERS.forEach((k, ki) => {
+      const v = counts[ri][k];
+      const h = v / max * 200;
+      const x = gx + ki * (colW + gap);
+      out += '<rect x="' + x + '" y="' + (base - h) + '" width="' + colW + '" height="' + h +
+             '" fill="' + A_COL[k] + '"/>';
+      out += '<text class="c-valo" x="' + (x + colW / 2) + '" y="' + (base - h - 9) +
+             '" text-anchor="middle">' + v + '</text>';
+    });
+    out += '<text class="c-lab" x="' + (gx + groupW / 2) + '" y="' + (base + 26) +
+           '" text-anchor="middle">' + r + '</text>';
+    out += '<text class="c-sub" x="' + (gx + groupW / 2) + '" y="' + (base + 44) +
+           '" text-anchor="middle">' + ALL.filter(i => DATA[i][4] === r).length + ' sources</text>';
+  });
+  document.getElementById('fig3').innerHTML =
+    '<svg viewBox="0 0 1000 ' + (base + 58) + '" xmlns="http://www.w3.org/2000/svg" role="img" ' +
+    'aria-label="Access tier by buyer role">' + out + '</svg>';
+  legend('leg3', TIERS);
+  const execPaid = counts[2].Freemium + counts[2].Commercial;
+  document.getElementById('take3').innerHTML =
+    '<b>Only ' + execPaid + ' of the ' + ALL.filter(i => DATA[i][4] === 'Exec').length +
+    ' exec-facing sources cost anything.</b> The people who authorise spend are served almost entirely ' +
+    'by free material — which is exactly why the spending case has to be made for them, not by them.';
+}
+
+function stack(){
+  document.getElementById('stackrows').innerHTML = GROUPS.map((g, i) =>
+    '<div class="srow' + (i % 2 ? ' stripe' : '') + '">' +
+      '<div class="perf">' + String(i + 1).padStart(2, '0') + '</div>' +
+      '<div class="sq"><span class="gbar" style="background:' + g.c +
+        ';margin:0 0 6px;display:block"></span>' + esc(g.s) + '</div>' +
+      '<div class="sfree">' + esc(STACK[i][0]) + '</div>' +
+      '<div class="spaid">' + esc(STACK[i][1]) + '</div>' +
+      '<div class="scost">' + esc(STACK[i][2]) + '</div>' +
+    '</div>').join('');
+}
+
+fig1(); fig2(); fig3(); stack();
+
+const RATES = [
+ ["Masthead unit","Top of every page, above the Ledger","Any influence on an assessment, a chart, or a Ledger entry","Rate on request"],
+ ["Section support","Header of Findings, Stack, or Matrix","Advance sight of the section, or any say in its contents","Rate on request"],
+ ["Verified listing","Your existing row in the Coverage Matrix","Your position, your access band, or the free-tier column","Rate on request"],
+ ["Partner content","The Partner content section only","A slot in the Ledger, the Findings, or the Matrix","Rate on request"],
+ ["Newsletter unit","Header of the weekly send","Subscriber names, addresses, or any exported list","Rate on request"],
+ ["Survey underwriting","Named on the State of Network Visibility report","The questions, the respondents, or the results","Rate on request"]
+];
+
+/* Source indices whose vendors have verified their own listing. Empty until a
+   contract is signed — never populate this speculatively. */
+const VERIFIED = [];
+
+function rates(){
+  document.getElementById('raterows').innerHTML = RATES.map((r, i) =>
+    '<div class="arow' + (i % 2 ? ' stripe' : '') + '">' +
+      '<div class="perf">' + String(i + 1).padStart(2, '0') + '</div>' +
+      '<div class="aunit">' + esc(r[0]) + '</div>' +
+      '<div class="awhere">' + esc(r[1]) + '</div>' +
+      '<div class="anot">' + esc(r[2]) + '</div>' +
+      '<div class="arate">' + esc(r[3]) + '</div>' +
+    '</div>').join('');
+}
+rates();
+
+
+(function(){
+  var stamp = document.getElementById('stamp');
+  if (stamp) stamp.textContent = new Date().toLocaleDateString('en-GB',
+    {day:'numeric', month:'short', year:'numeric'});
+
+  var sticky = document.getElementById('sticky');
+  var mast = document.querySelector('.masthead');
+  if (!sticky || !mast) return;
+  var trigger = mast.offsetHeight + 120, shown = false, ticking = false;
+  function check(){
+    var want = window.scrollY > trigger;
+    if (want !== shown){
+      shown = want;
+      sticky.classList.toggle('show', want);
+      sticky.setAttribute('aria-hidden', String(!want));
+    }
+    ticking = false;
+  }
+  window.addEventListener('scroll', function(){
+    if (!ticking){ ticking = true; requestAnimationFrame(check); }
+  }, {passive:true});
+  check();
+})();
+
+
+function wireChips(id, setter){
+  const group = document.getElementById(id);
+  group.addEventListener('click', e => {
+    const btn = e.target.closest('.chip');
+    if (!btn) return;
+    group.querySelectorAll('.chip').forEach(c => c.setAttribute('aria-pressed', String(c === btn)));
+    setter(btn.dataset.f);
+    render();
+  });
+}
+wireChips('chips-access', v => fAccess = v);
+wireChips('chips-fit', v => fFit = v);
+qEl.addEventListener('input', render);
+render();
+
+const io = new IntersectionObserver(entries => {
+  entries.forEach(en => { if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); } });
+}, { threshold: 0.06 });
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+</script>
+</body>
+</html>
